@@ -3,7 +3,6 @@ global:
 
 # Configuration for scraping individual services
 scrape_configs:
-
   # Configuration for scraping Prometheus itself
   - job_name: 'prometheus'
     dns_sd_configs:
@@ -24,7 +23,3 @@ remote_write:
     basic_auth:
       username: ${GRAFANA_USERNAME}
       password: ${GRAFANA_PASSWORD}
-scrape_configs:
-  - job_name: node
-    static_configs:
-      - targets: ["localhost:9090"]
