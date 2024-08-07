@@ -4,9 +4,6 @@ ARG PROMETHEUS_VERSION=2.52.0
 # Use the official Prometheus base image
 FROM prom/prometheus:v${PROMETHEUS_VERSION}
 
-# Install envsubst
-RUN apk add --no-cache gettext
-
 # Add the prometheus.yml file
 ADD prometheus.yml /etc/prometheus/prometheus.yml.template
 
@@ -15,12 +12,9 @@ ARG GRAFANA_USERNAME
 ARG GRAFANA_PASSWORD
 ENV GRAFANA_USERNAME=${GRAFANA_USERNAME}
 ENV GRAFANA_PASSWORD=${GRAFANA_PASSWORD}
-RUN envsubst < /etc/prometheus/prometheus.yml.template > /etc/prometheus/prometheus.yml
 
-# Sets the Render service name in prometheus.yml
-# using the RENDER_SERVICE_NAME environment variable
-ARG RENDER_SERVICE_NAME
-RUN sed -i "s/RENDER_SERVICE_NAME/${RENDER_SERVICE_NAME}/g" /etc/prometheus/prometheus.yml
+# Use a shell script to substitute environment variables
+RUN sh -c 'envsubst < /etc/prometheus/prometheus.yml.template > /etc/prometheus/prometheus.yml'
 
 # Sets the storage path to your persistent disk path,
 # plus other config
