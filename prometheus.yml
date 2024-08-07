@@ -11,9 +11,9 @@ scrape_configs:
         type: A # Render service discovery uses A records
         refresh_interval: 5s # Refresh the list of targets every 5 seconds
 
-  - job_name: 'TheirStackBackend' # Replace w/ your service's name
+  - job_name: 'theirstackbackend' # Replace w/ your service's name
     dns_sd_configs:
-      - names: ['TheirStackBackend-discovery'] # Replace w/ your service's name + '-discovery'
+      - names: ['theirstackbackend-discovery'] # Replace w/ your service's name + '-discovery'
         port: 9090 # Replace w/ the port for your service's metrics endpoint
         type: A
         refresh_interval: 5s
