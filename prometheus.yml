@@ -1,7 +1,6 @@
 global:
   scrape_interval: 15s # By default, scrape targets every 15 seconds.
 
-# Configuration for scraping individual services
 scrape_configs:
   # Configuration for scraping Prometheus itself
   - job_name: 'prometheus'
@@ -21,5 +20,5 @@ scrape_configs:
 remote_write:
   - url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
     basic_auth:
-      username: ${GRAFANA_USERNAME}
-      password: ${GRAFANA_PASSWORD}
+      username: {{GRAFANA_USERNAME}}
+      password: {{GRAFANA_PASSWORD}}
