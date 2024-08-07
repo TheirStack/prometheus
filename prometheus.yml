@@ -4,16 +4,18 @@ global:
 # Configuration for scraping individual services
 scrape_configs:
 
+  # Configuration for scraping Prometheus itself
   - job_name: 'prometheus'
     dns_sd_configs:
-      - names: ['prometheus-discovery']
+      - names: ['RENDER_SERVICE_NAME-discovery']
         port: 9090
         type: A # Render service discovery uses A records
         refresh_interval: 5s # Refresh the list of targets every 5 seconds
 
-  - job_name: 'theirstackbackend' # Replace w/ your service's name
+  # Uncomment to add a job for scraping another Render service
+  - job_name: 'TheirStackBackend' # Replace w/ your service's name
     dns_sd_configs:
-      - names: ['theirstackbackend-discovery'] # Replace w/ your service's name + '-discovery'
-        port: 10000 # Replace w/ the port for your service's metrics endpoint
+      - names: ['TheirStackBackend-discovery'] # Replace w/ your service's name + '-discovery'
+        port: 9090 # Replace w/ the port for your service's metrics endpoint
         type: A
         refresh_interval: 5s
