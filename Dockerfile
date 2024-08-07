@@ -4,6 +4,17 @@ ARG PROMETHEUS_VERSION=2.52.0
 # Use the official Prometheus base image
 FROM prom/prometheus:v${PROMETHEUS_VERSION}
 
+# Install envsubst
+RUN apk add --no-cache gettext
+
+# Add the prometheus.yml file
+ADD prometheus.yml /etc/prometheus/prometheus.yml.template
+
+# Substitute environment variables in prometheus.yml
+ENV GRAFANA_USERNAME=${GRAFANA_USERNAME}
+ENV GRAFANA_PASSWORD=${GRAFANA_PASSWORD}
+RUN envsubst < /etc/prometheus/prometheus.yml.template > /etc/prometheus/prometheus.yml
+
 # Apply this repo's prometheus.yml file
 ADD prometheus.yml /etc/prometheus/
 
