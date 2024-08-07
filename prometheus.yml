@@ -14,6 +14,6 @@ scrape_configs:
   - job_name: 'theirstackbackend' # Replace w/ your service's name
     dns_sd_configs:
       - names: ['theirstackbackend-discovery'] # Replace w/ your service's name + '-discovery'
-        port: 9090 # Replace w/ the port for your service's metrics endpoint
+        port: 10000 # Replace w/ the port for your service's metrics endpoint
         type: A
         refresh_interval: 5s
