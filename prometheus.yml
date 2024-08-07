@@ -15,7 +15,16 @@ scrape_configs:
   # Uncomment to add a job for scraping another Render service
   - job_name: 'TheirStackBackend' # Replace w/ your service's name
     dns_sd_configs:
-      - names: ['TheirStackBackend-discovery'] # Replace w/ your service's name + '-discovery'
+      - names: ['theirstackbackend-discovery'] # Replace w/ your service's name + '-discovery'
         port: 9090 # Replace w/ the port for your service's metrics endpoint
         type: A
         refresh_interval: 5s
+remote_write:
+  - url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
+    basic_auth:
+      username: ${GRAFANA_USERNAME}
+      password: ${GRAFANA_PASSWORD}
+scrape_configs:
+  - job_name: node
+    static_configs:
+      - targets: ["localhost:9090"]
