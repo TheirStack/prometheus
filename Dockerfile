@@ -11,12 +11,11 @@ RUN apk add --no-cache gettext
 ADD prometheus.yml /etc/prometheus/prometheus.yml.template
 
 # Substitute environment variables in prometheus.yml
+ARG GRAFANA_USERNAME
+ARG GRAFANA_PASSWORD
 ENV GRAFANA_USERNAME=${GRAFANA_USERNAME}
 ENV GRAFANA_PASSWORD=${GRAFANA_PASSWORD}
 RUN envsubst < /etc/prometheus/prometheus.yml.template > /etc/prometheus/prometheus.yml
-
-# Apply this repo's prometheus.yml file
-ADD prometheus.yml /etc/prometheus/
 
 # Sets the Render service name in prometheus.yml
 # using the RENDER_SERVICE_NAME environment variable
