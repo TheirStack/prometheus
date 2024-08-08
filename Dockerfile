@@ -20,6 +20,7 @@ RUN sed -i "s/GRAFANA_PASSWORD/${GRAFANA_PASSWORD}/g" /etc/prometheus/prometheus
 # Sets the storage path to your persistent disk path,
 # plus other config
 CMD [ "--storage.tsdb.path=/var/data/prometheus", \
+      "--web.config.file=/etc/prometheus/web.yml", \
       "--config.file=/etc/prometheus/prometheus.yml", \
       "--web.console.libraries=/usr/share/prometheus/console_libraries", \
       "--web.console.templates=/usr/share/prometheus/consoles" ]

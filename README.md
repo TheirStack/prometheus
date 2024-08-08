@@ -19,3 +19,6 @@ When you create your Render service, use the following values:
 - **Instance Type**: Any except Free (Prometheus requires an attached disk to persist metrics data)
 - **Disk Mount Path**: `/var/data`
     - Disk details are specified under **Advanced** during service creation.
+
+
+Change password:  https://prometheus.io/docs/guides/basic-auth/
