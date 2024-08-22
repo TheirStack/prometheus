@@ -12,6 +12,9 @@ scrape_configs:
         type: A
         refresh_interval: 5s
   - job_name: 'theirstackjobs'
+    basic_auth:
+      username: PROMETHEUS_PUSHGATEWAY_USERNAME
+      password: PROMETHEUS_PUSHGATEWAY_PASSWORD
     dns_sd_configs:
       - names: ['prometetheus-pushgateway-discovery'] # Replace w/ your service's name + '-discovery'
         port: 9091
