@@ -4,8 +4,8 @@ global:
 scrape_configs:
   - job_name: 'theirstackbackend'
     basic_auth:
-      username: GRAFANA_USERNAME
-      password: GRAFANA_PASSWORD
+      username: THEIRSTACK_API_METRICS_ENDPOINT_USERNAME
+      password: THEIRSTACK_API_METRICS_ENDPOINT_PASSWORD
     dns_sd_configs:
       - names: ['theirstackbackend-discovery'] # Replace w/ your service's name + '-discovery'
         port: 10000 # Replace w/ the port for your service's metrics endpoint
