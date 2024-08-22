@@ -1,11 +1,8 @@
 global:
-  scrape_interval: 15s # By default, scrape targets every 15 seconds.
+  scrape_interval: 15s 
 
-# Configuration for scraping individual services
 scrape_configs:
-
-  # Uncomment to add a job for scraping another Render service
-  - job_name: 'theirstackbackend' # Replace w/ your service's name
+  - job_name: 'theirstackbackend'
     basic_auth:
       username: GRAFANA_USERNAME
       password: GRAFANA_PASSWORD
@@ -14,6 +11,13 @@ scrape_configs:
         port: 10000 # Replace w/ the port for your service's metrics endpoint
         type: A
         refresh_interval: 5s
+  - job_name: 'theirstackjobs'
+     dns_sd_configs:
+      - names: ['prometetheus-pushgateway-discovery'] # Replace w/ your service's name + '-discovery'
+        port: 9091
+        type: A
+        refresh_interval: 5s
+  
 remote_write:
   - url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
     basic_auth:
