@@ -12,12 +12,12 @@ scrape_configs:
         type: A
         refresh_interval: 5s
   - job_name: 'theirstackjobs'
-     dns_sd_configs:
+    dns_sd_configs:
       - names: ['prometetheus-pushgateway-discovery'] # Replace w/ your service's name + '-discovery'
         port: 9091
         type: A
         refresh_interval: 5s
-  
+
 remote_write:
   - url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
     basic_auth:
