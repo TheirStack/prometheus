@@ -34,4 +34,6 @@ CMD [ "--storage.tsdb.path=/var/data/prometheus", \
       "--web.config.file=/etc/prometheus/web.yml", \
       "--config.file=/etc/prometheus/prometheus.yml", \
       "--web.console.libraries=/usr/share/prometheus/console_libraries", \
-      "--web.console.templates=/usr/share/prometheus/consoles" ]
+      "--web.console.templates=/usr/share/prometheus/consoles", \
+      "--storage.tsdb.retention.time=15d", \
+      "--storage.tsdb.retention.size=800MB" ]
