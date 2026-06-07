@@ -28,13 +28,19 @@ ARG PROMETHEUS_PUSHGATEWAY_PASSWORD
 RUN sed -i "s/PROMETHEUS_PUSHGATEWAY_USERNAME/${PROMETHEUS_PUSHGATEWAY_USERNAME}/g" /etc/prometheus/prometheus.yml
 RUN sed -i "s/PROMETHEUS_PUSHGATEWAY_PASSWORD/${PROMETHEUS_PUSHGATEWAY_PASSWORD}/g" /etc/prometheus/prometheus.yml
 
-# Sets the storage path to your persistent disk path,
-# plus other config
-CMD [ "--storage.tsdb.path=/var/data/prometheus", \
-      "--web.config.file=/etc/prometheus/web.yml", \
-      "--config.file=/etc/prometheus/prometheus.yml", \
-      "--web.console.libraries=/usr/share/prometheus/console_libraries", \
-      "--web.console.templates=/usr/share/prometheus/consoles", \
-      "--storage.tsdb.retention.time=7d", \
-      "--storage.tsdb.retention.size=600MB", \
-      "--storage.tsdb.wal-compression" ]
+# Run as a forwarding-only Prometheus Agent: scrape + remote_write to Grafana
+# Cloud, with no local block storage. Grafana Cloud is the query backend (the
+# remote_write target), so this instance never needs to serve queries or keep a
+# local TSDB. Agent mode keeps only a small WAL that is truncated as soon as
+# samples are shipped, which removes the multi-GB head/WAL that was OOM-killing
+# the server-mode setup on every boot.
+#
+# The leading `rm` is a one-time cleanup of the TSDB left by the old server-mode
+# config. Without it the first boot would replay that bloated WAL and OOM-loop
+# again; afterwards it is a harmless no-op (the directory no longer exists).
+ENTRYPOINT ["/bin/sh", "-c"]
+CMD ["rm -rf /var/data/prometheus; exec /bin/prometheus \
+      --config.file=/etc/prometheus/prometheus.yml \
+      --web.config.file=/etc/prometheus/web.yml \
+      --enable-feature=agent \
+      --storage.agent.path=/var/data/agent"]
